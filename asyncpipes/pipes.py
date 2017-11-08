@@ -35,6 +35,12 @@ class AsyncPipe(threading.Thread):
         self.pipeReader.close()
 
     def close(self):
-        os.close(self.fdWrite)
+        os.close(self.fileno())
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
 
 
